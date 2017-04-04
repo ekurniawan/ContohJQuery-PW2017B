@@ -18,17 +18,19 @@
     <script>
         $(document).ready(function () {
             function AddTableHeader() {
-                var myHeader = "<tr><th>Nim</th><th>Nama</th><th>Email</th><th>Ipk</th></tr>";
+                var myHeader = "<thead><tr><th>Nim</th><th>Nama</th><th>Email</th><th>Ipk</th></tr></thead>";
                 $("#tblMhs").append(myHeader);
             }
 
             function AddTableData(){
-                var data = "";
+                AddTableHeader();
+                var data = "<tbody>";
                 for(i in arrMhs)
                 {
                     data += "<tr><td>"+arrMhs[i].Nim+"</td><td>"+arrMhs[i].Nama+"</td><td>"+arrMhs[i].Email + 
                     "</td><td>"+arrMhs[i].Ipk+"</td></tr>";
                 }
+                data += "</tbody>";
                 $("#tblMhs").append(data);
             }
 
@@ -38,8 +40,8 @@
                 { Nim: "72170003", Nama: "Budi Halim", Email: "halim@si.ukdw.ac.id", Ipk: 3.5 }
             ];
 
-
-            AddTableHeader();
+            AddTableData();
+            
 
         });
     </script>
