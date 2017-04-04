@@ -27,7 +27,13 @@
     <script src="js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function(){
-            
+            //3.14*jari*jari
+
+            $("#btnHitung").click(function(){
+                var jari = parseFloat($("#txtJari").val());
+                var hasil = 3.14*jari*jari;
+                $("#txtHasil").val(hasil);
+            });
             
             $("#btnHello").click(function(){
                  $("#par1").html("Hello JQuery !");
