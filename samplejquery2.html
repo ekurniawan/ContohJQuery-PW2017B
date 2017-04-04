@@ -61,6 +61,21 @@
                 $("#tblMhs").append(data);
             }
 
+            function TambahData(mhs) {
+                arrMhs.push(mhs);
+            }
+
+            $("#btnTambah").click(function () {
+                var nim = $("#nim").val();
+                var nama = $("#nama").val();
+                var email = $("#email").val();
+                var ipk = parseFloat($("#ipk").val());
+
+                var mhs = { Nim: nim, Nama: nama, Email: email, Ipk: ipk };
+                TambahData(mhs);
+                AddTableData();
+            });
+
             var arrMhs = [
                 { Nim: "72170001", Nama: "Erick Kurniawan", Email: "erick@si.ukdw.ac.id", Ipk: 3.6 },
                 { Nim: "72170002", Nama: "Argo Wibowo", Email: "argo@si.ukdw.ac.id", Ipk: 3.8 },
