@@ -31,11 +31,11 @@
             }
 
             $("#btnShow").click(function () {
-                AddTableHeader();
                 GetData();
             });
 
             function GetData() {
+                AddTableHeader();
                 $.ajax({
                     type: "GET",
                     url: url,
