@@ -31,6 +31,7 @@
                         <input type="text" class="form-control" id="txtIpk">
                     </div>
                     <button type="button" id="btnTambah" class="btn btn-default">Tambah</button>
+                    <button type="button" id="btnDelete" class="btn btn-danger">Delete</button>
                 </form>
             </div>
             <div class="col-md-9">
@@ -47,8 +48,8 @@
     <script src="js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
-            var url = "http://contohbackend.azurewebsites.net/tables/Mahasiswa";
-
+            var url = "http://contohbackend.azurewebsites.net/tables/Mahasiswa/";
+            var listData = [];
             GetData();
 
             $("#myTable").on("click", "tr", function () {
@@ -69,6 +70,37 @@
             function AddTableHeader() {
                 var myHeader = "<thead><tr><th>Nim</th><th>Nama</th><th>Email</th><th>Ipk</th></tr></thead>";
                 $("#myTable").append(myHeader);
+            }
+
+            $("#btnDelete").click(function(){
+                DeleteData();
+            });
+
+            function DeleteData(){
+                 var nim = $("#txtNim").val();
+
+                 var results = $.grep(listData, function(e){ return e.nim == nim; });
+                 var result = results[0].id; 
+                 alert(result);
+
+                 $.ajax({
+                    type: "DELETE",
+                    url: url + id,
+                    data: JSON.stringify(newMhs),
+                    headers: {
+                        "ZUMO-API-VERSION": "2.0.0",
+                        "Access-Control-Allow-Headers": "*"
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        alert("Data mahasiswa berhasil ditambah !");
+                        GetData();
+                    },
+                    error: function (error) {
+                        var msg = JSON.parse(error);
+                        alert("Kesalahan : " + msg.responseText);
+                    }
+                });
             }
 
             function InsertData() {
@@ -128,6 +160,7 @@
                             result += "<td>" + value.Email + "</td>";
                             result += "<td>" + value.Ipk + "</td>";
                             result += "</tr>";
+                            listData.push({id:value.id,nim:value.Nim});
                         });
                         result += "</tbody>";
                         $("#myTable").append(result);
