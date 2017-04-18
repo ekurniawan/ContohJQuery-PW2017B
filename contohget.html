@@ -35,7 +35,7 @@
             </div>
             <div class="col-md-9">
                 <h4>Daftar Mahasiswa</h4>
-                <table id="myTable" class="table table-striped"></table>
+                <table id="myTable" class="table table-striped table-hover"></table>
             </div>
         </div><br>
         <div class="row">
@@ -50,6 +50,21 @@
             var url = "http://contohbackend.azurewebsites.net/tables/Mahasiswa";
 
             GetData();
+
+            $("#myTable").on("click", "tr", function () {
+                //var myTr = $(this).closest("td");
+                //console.log($(this).find("td").eq(0).text());
+                var nim = $(this).find("td").eq(0).text();
+                var nama = $(this).find("td").eq(1).text();
+                var email = $(this).find("td").eq(2).text();
+                var ipk = $(this).find("td").eq(3).text();
+
+                $("#txtNim").val(nim);
+                $("#txtNama").val(nama);
+                $("#txtEmail").val(email);
+                $("#txtIpk").val(ipk);
+
+            });
 
             function AddTableHeader() {
                 var myHeader = "<thead><tr><th>Nim</th><th>Nama</th><th>Email</th><th>Ipk</th></tr></thead>";
@@ -84,7 +99,8 @@
                         GetData();
                     },
                     error: function (error) {
-                        alert("Kesalahan : " + error.responseText);
+                        var msg = JSON.parse(error);
+                        alert("Kesalahan : " + msg.responseText);
                     }
                 });
             }
