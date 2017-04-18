@@ -57,33 +57,41 @@
             }
 
             function InsertData() {
+                var nim = $("#txtNim").val();
+                var nama = $("#txtNama").val();
+                var email = $("#txtEmail").val();
+                var ipk = parseFloat($("#txtIpk").val());
+
                 var newMhs = {
-                    "Nim": $("#txtNim").val(),
-                    "Nama": $("#txtNama").val(),
-                    "Email": $("#txtEmail").val(),
-                    "Ipk": $("txtIpk").val()
+                    Nim: nim,
+                    Nama: nama,
+                    Email: email,
+                    Ipk: ipk
                 };
 
                 $.ajax({
                     type: "POST",
                     url: url,
+                    data: JSON.stringify(newMhs),
                     headers: {
                         "ZUMO-API-VERSION": "2.0.0",
+                        "Content-Type": "application/json",
                         "Access-Control-Allow-Headers": "*"
                     },
                     dataType: "json",
-                    data: newMhs,
                     success: function (data) {
                         alert("Data mahasiswa berhasil ditambah !");
                         GetData();
                     },
                     error: function (error) {
-                        alert("Kesalahan : " + error);
+                        alert("Kesalahan : " + error.responseText);
                     }
                 });
             }
 
-            
+            $("#btnTambah").click(function () {
+                InsertData();
+            });
 
             function GetData() {
                 AddTableHeader();
