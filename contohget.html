@@ -16,19 +16,19 @@
                 <form>
                     <div class="form-group">
                         <label for="nim">Nim:</label>
-                        <input type="text" class="form-control" id="nim">
+                        <input type="text" class="form-control" id="txtNim">
                     </div>
                     <div class="form-group">
                         <label for="nama">Nama:</label>
-                        <input type="text" class="form-control" id="nama">
+                        <input type="text" class="form-control" id="txtNama">
                     </div>
                     <div class="form-group">
                         <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email">
+                        <input type="email" class="form-control" id="txtEmail">
                     </div>
                     <div class="form-group">
                         <label for="ipk">Ipk:</label>
-                        <input type="text" class="form-control" id="ipk">
+                        <input type="text" class="form-control" id="txtIpk">
                     </div>
                     <button type="button" id="btnTambah" class="btn btn-default">Tambah</button>
                 </form>
@@ -55,6 +55,35 @@
                 var myHeader = "<thead><tr><th>Nim</th><th>Nama</th><th>Email</th><th>Ipk</th></tr></thead>";
                 $("#myTable").append(myHeader);
             }
+
+            function InsertData() {
+                var newMhs = {
+                    "Nim": $("#txtNim").val(),
+                    "Nama": $("#txtNama").val(),
+                    "Email": $("#txtEmail").val(),
+                    "Ipk": $("txtIpk").val()
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    headers: {
+                        "ZUMO-API-VERSION": "2.0.0",
+                        "Access-Control-Allow-Headers": "*"
+                    },
+                    dataType: "json",
+                    data: newMhs,
+                    success: function (data) {
+                        alert("Data mahasiswa berhasil ditambah !");
+                        GetData();
+                    },
+                    error: function (error) {
+                        alert("Kesalahan : " + error);
+                    }
+                });
+            }
+
+            
 
             function GetData() {
                 AddTableHeader();
