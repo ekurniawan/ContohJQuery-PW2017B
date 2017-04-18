@@ -77,11 +77,16 @@
                 var ipk = parseFloat($("#ipk").val());
 
                 var mhs = { Nim: nim, Nama: nama, Email: email, Ipk: ipk };
-                TambahData(mhs);
-                AddTableData();
 
-                $("#successMsg").html("<div class='alert alert-success alert-dismissable'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+                try{
+                    TambahData(mhs);
+                    AddTableData();
+                     $("#successMsg").html("<div class='alert alert-success alert-dismissable'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
                     "<strong>Berhasil!</strong> Data berhasil ditambah.</div>");
+                }
+                catch(err){
+                    alert(err.message);
+                }
             });
 
             var arrMhs = [
