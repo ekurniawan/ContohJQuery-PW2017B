@@ -48,7 +48,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
-            var url = "http://contohbackend.azurewebsites.net/tables/Mahasiswa/";
+            var url = "http://mysamplebackend.azurewebsites.net/tables/mahasiswa/";
             var listData = [];
             GetData();
 
@@ -142,6 +142,8 @@
             });
 
             function GetData() {
+                $("#myTable").empty();
+
                 AddTableHeader();
                 $.ajax({
                     type: "GET",

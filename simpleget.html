@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+
+        </div>
+    </div>
+
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var url = "http://easytabledosen.azurewebsites.net/tables/dosen/";
+            var listData = [];
+            
+            function GetData(){
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    headers: {
+                        "ZUMO-API-VERSION": "2.0.0",
+                        "Access-Control-Allow-Headers": "*"
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        var result = "";
+                        $.each(data, function (key, value) {
+                           result += value.nik + " " + value.nama + "\n";
+                        });
+                        alert(result);
+                    },
+                    error: function (error) {
+                        var msg = JSON.parse(error);
+                        alert("Kesalahan : " + msg.responseText);
+                    }
+                });
+            }
+
+        });
+    </script>
+</body>
+
+</html>
