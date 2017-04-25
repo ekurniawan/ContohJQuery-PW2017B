@@ -19,9 +19,33 @@
     <script src="js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
-            var url = "http://mysamplebackend.azurewebsites.net/tables/mahasiswa/";
-            var listData = [];
-            
+            var url = "http://mysamplebackend.azurewebsites.net/tables/dosen/";
+
+            GetData();
+
+            function GetData() {
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    headers: {
+                        "ZUMO-API-VERSION": "2.0.0",
+                        "Access-Control-Allow-Headers": "*"
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        var result = "";
+                        $.each(data, function (key, value) {
+                            result += value.nik + " " + value.nama + "\n";
+                        });
+                        alert(result);
+                    },
+                    error: function (error) {
+                        var msg = JSON.parse(error);
+                        alert("Kesalahan : " + msg.responseText);
+                    }
+                });
+            }
+
         });
     </script>
 </body>
