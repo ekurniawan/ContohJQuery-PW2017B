@@ -11,7 +11,13 @@
 <body>
     <div class="container">
         <div class="row">
-            <button id="btnGetDosen" class="btn btn-primary">Get Dosen</button>
+            <div class="col-md-9">
+                <table id="tblDosen" class="table table-striped"></table>
+            </div>
+
+            <div class="col-md-3">
+
+            </div>
         </div>
     </div>
 
@@ -19,14 +25,20 @@
     <script src="js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
-            var url = "http://easytabledosen.azurewebsites.net/tables/dosen/";
+            var url = "http://mysamplebackend.azurewebsites.net/tables/dosen/";
             var listData = [];
-
-            $("#btnGetDosen").click(function(){
-                GetData();
-            });
             
+            GetData();
+
             function GetData(){
+                //clear data table
+                $("#tblDosen").empty();
+
+                var tblHeader = "<thead>";
+                tblHeader += "<tr><th>Nik</th><th>Nama</th><th>Alamat</th><th>Telp</th><th>Email</th></tr>";
+                tblHeader += "</thead>";
+                $("#tblDosen").append(tblHeader);
+
                 $.ajax({
                     type: "GET",
                     url: url,
@@ -36,11 +48,18 @@
                     },
                     dataType: "json",
                     success: function (data) {
-                        var result = "";
+                        var tblBody = "<tbody>";
                         $.each(data, function (key, value) {
-                           result += value.Nik + " " + value.Nama + "\n";
+                           tblBody += "<tr>"; 
+                           tblBody += "<td>" + value.nik + "</td>";
+                           tblBody += "<td>" + value.nama + "</td>";
+                           tblBody += "<td>" + value.alamat + "</td>";
+                           tblBody += "<td>" + value.telp + "</td>";
+                           tblBody += "<td>" + value.email + "</td>";
+                           tblBody += "</tr>";
                         });
-                        alert(result);
+                        tblBody += "</tbody>";
+                         $("#tblDosen").append(tblBody);
                     },
                     error: function (error) {
                         var msg = JSON.parse(error);
