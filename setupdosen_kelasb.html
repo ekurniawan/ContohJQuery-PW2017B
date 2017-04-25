@@ -11,7 +11,11 @@
 <body>
     <div class="container">
         <div class="row">
-
+            <div class="col-md-8">
+                <table id="tableDosen" class="table table-striped">
+                </table>
+            </div>
+            <div class="col-md-4"></div>
         </div>
     </div>
 
@@ -24,6 +28,15 @@
             GetData();
 
             function GetData() {
+                //mengosongkan table
+                $("#tableDosen").empty();
+
+                //menambahkan header
+                var tblHeader = "<thead><tr>";
+                tblHeader += "<th>Nik</th><th>Nama</th><th>Alamat</th><th>Telp</th><th>Email</th>";
+                tblHeader += "</tr></thead>";
+                $("#tableDosen").append(tblHeader);
+
                 $.ajax({
                     type: "GET",
                     url: url,
@@ -33,11 +46,19 @@
                     },
                     dataType: "json",
                     success: function (data) {
-                        var result = "";
+                        var result = "<tbody>";
                         $.each(data, function (key, value) {
-                            result += value.nik + " " + value.nama + "\n";
+                            result += "<tr>";
+                            result += "<td>" + value.nik + "</td>";
+                            result += "<td>" + value.nama + "</td>";
+                            result += "<td>" + value.alamat + "</td>";
+                            result += "<td>" + value.telp + "</td>";
+                            result += "<td>" + value.email + "</td>";
+                            result += "</tr>";
                         });
-                        alert(result);
+                        result += "</tbody>";
+                        $("#tableDosen").append(result);
+                        //alert(result);
                     },
                     error: function (error) {
                         var msg = JSON.parse(error);
