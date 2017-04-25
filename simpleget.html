@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <div class="row">
-
+            <button id="btnGetDosen" class="btn btn-primary">Get Dosen</button>
         </div>
     </div>
 
@@ -21,6 +21,10 @@
         $(document).ready(function () {
             var url = "http://easytabledosen.azurewebsites.net/tables/dosen/";
             var listData = [];
+
+            $("#btnGetDosen").click(function(){
+                GetData();
+            });
             
             function GetData(){
                 $.ajax({
@@ -34,7 +38,7 @@
                     success: function (data) {
                         var result = "";
                         $.each(data, function (key, value) {
-                           result += value.nik + " " + value.nama + "\n";
+                           result += value.Nik + " " + value.Nama + "\n";
                         });
                         alert(result);
                     },
