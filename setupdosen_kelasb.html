@@ -107,11 +107,43 @@
 
             $("#btnDelete").click(function () {
                 if (confirm('Are you sure to delete this data ?')) {
-                   DeleteDataDosen();
+                    DeleteDataDosen();
                 }
             });
 
-            function DeleteDataDosen(){
+            $("#btnEdit").click(function () {
+                EditDataDosen();
+            });
+
+            function EditDataDosen() {
+                var editDosen = {
+                    nama:$("#edit_nama").val(),
+                    alamat:$("#edit_alamat").val(),
+                    telp:$("#edit_telp").val(),
+                    email:$("#edit_email").val()
+                }
+
+                $.ajax({
+                    type: "PATCH",
+                    url: url + currId,
+                    data: JSON.stringify(editDosen),
+                    headers: {
+                        "ZUMO-API-VERSION": "2.0.0",
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Headers": "*"
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        GetData();
+                    },
+                    error: function (error) {
+                        var msg = JSON.parse(error);
+                        alert("Kesalahan : " + msg.responseText);
+                    }
+                });
+            }
+
+            function DeleteDataDosen() {
                 $.ajax({
                     type: "DELETE",
                     url: url + currId,
