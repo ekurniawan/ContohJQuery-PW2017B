@@ -58,7 +58,7 @@
                         <h4 class="modal-title">Tambah Data Dosen</h4>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form id="insertForm">
                             <div class="form-group">
                                 <label for="txtNik">Nik:</label>
                                 <input type="text" class="form-control" id="txtNik">
@@ -100,6 +100,14 @@
 
             GetData();
 
+            $("#btnTambah").click(function(){
+                InsertData();
+            });
+
+            function ClearAllData(){
+                $('#insertForm')[0].reset();
+            }
+
             function InsertData() {
                 var nik = $("#txtNik").val();
                 var nama = $("#txtNama").val();
@@ -126,7 +134,9 @@
                     },
                     dataType: "json",
                     success: function (data) {
-                        alert("Data dosen berhasil ditambah !");
+                        //alert("Data dosen berhasil ditambah !");
+                        ClearAllData();
+                        $("#myModal").modal('toggle');
                         GetData();
                     },
                     error: function (error) {
