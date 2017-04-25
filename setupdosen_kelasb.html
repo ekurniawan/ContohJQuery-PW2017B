@@ -49,7 +49,7 @@
                                 <input type="text" class="form-control" id="telp">
                             </div>
                             <div class="form-group">
-                                <label for="email">Telp:</label>
+                                <label for="email">Email:</label>
                                 <input type="email" class="form-control" id="email">
                             </div>
                             <button type="button" id="btnTambah" class="btn btn-default">Tambah</button>
@@ -70,6 +70,47 @@
             var url = "http://mysamplebackend.azurewebsites.net/tables/dosen/";
 
             GetData();
+
+            $("#btnTambah").click(function(){
+                AddDataDosen();
+            });
+
+            function ClearAllData(){
+                $('#formTambahDosen')[0].reset();
+            }
+
+            function AddDataDosen(){
+                 var newDosen = {
+                     nik:$("#nik").val(),
+                     nama:$("#nama").val(),
+                     alamat:$("#alamat").val(),
+                     telp:$("#telp").val(),
+                     email:$("#email").val()
+                 };
+
+                 $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify(newDosen),
+                    headers: {
+                        "ZUMO-API-VERSION": "2.0.0",
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Headers": "*"
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        //alert("Data Dosen berhasil ditambah !");
+                        //alert(newDosen);
+                        $("#myModal").modal('toggle');
+                        GetData();
+                        ClearAllData();
+                    },
+                    error: function (error) {
+                        var msg = JSON.parse(error);
+                        alert("Kesalahan : " + msg.responseText);
+                    }
+                });
+            }
 
             function GetData() {
                 //mengosongkan table
