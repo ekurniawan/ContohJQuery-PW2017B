@@ -16,7 +16,12 @@
             var client = new WindowsAzure.MobileServiceClient("http://mysamplebackend.azurewebsites.net");
             var table = client.getTable("mahasiswa");
 
-            table.read().then(success,failure);
+            //table.read().then(success,failure);
+            table.where(filterNim,"72").read().then(success,failure);
+
+            function filterNim(searchNim){
+                return this.Nim.substring(0,2)==searchNim;
+            }
 
             function success(results){
                 var numItemRow = results.length;
@@ -32,6 +37,7 @@
                 throw new Error("Error load data: "+error);
             }
 
+            
 
         });
     </script>
