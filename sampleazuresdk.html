@@ -17,10 +17,15 @@
             var table = client.getTable("mahasiswa");
 
             //table.read().then(success,failure);
-            table.where(filterNim,"72").read().then(success,failure);
+            //table.where(filterNim,"72").read().then(success,failure);
+            table.where(filterNama,"Re").read().then(success,failure);
 
             function filterNim(searchNim){
                 return this.Nim.substring(0,2)==searchNim;
+            }
+
+            function filterNama(searchNama){
+                return this.Nama.substring(0,2)==searchNama;
             }
 
             function success(results){
@@ -36,8 +41,6 @@
             function failure(error){
                 throw new Error("Error load data: "+error);
             }
-
-            
 
         });
     </script>
