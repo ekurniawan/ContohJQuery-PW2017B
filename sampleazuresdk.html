@@ -6,28 +6,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" rel="stylesheet">
+
 </head>
 
 <body>
 
     <div class="container">
         <div class="row">
-             <p id="pData"></p>
-             <input type="text" id="idDelete" /><br>
-             <button id="btnTambah" class="btn btn-default">Tambah</button>
-             <button id="btnDelete" class="btn btn-default">Delete</button>
+            <div id="jsGrid"></div><br><br>
+            <input type="text" id="idDelete" /><br>
+            <button id="btnTambah" class="btn btn-default">Tambah</button>
+            <button id="btnDelete" class="btn btn-default">Delete</button>
         </div>
     </div>
 
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="https://zumo.blob.core.windows.net/sdk/azure-mobile-apps-client.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
     <script>
         $(document).ready(function () {
             var client = new WindowsAzure.MobileServiceClient("http://mysamplebackend.azurewebsites.net");
             var table = client.getTable("mahasiswa");
 
-            table.read().then(success,failure);
+            table.read().then(success, failure);
             //table.where(filterNim,"22190990").read().then(success,failure);
             //table.where(filterNama,"Re").orderBy("Nim").read().then(success,failure);
 
@@ -48,13 +52,31 @@
             }
 
             function success(results) {
+                var lstData = [];
                 var numItemRow = results.length;
-                var strOutput = "";
+
                 for (var i = 0; i < numItemRow; i++) {
                     var row = results[i];
-                    strOutput += row["id"] + " " + row["Nim"] + row["Nama"] + "<br/>";
+                    lstData.push({
+                        Nim: row["Nim"],
+                        Nama: row["Nama"]
+                    });
                 }
-                $("#pData").append(strOutput);
+
+                $("#jsGrid").jsGrid({
+                    height: "90%",
+                    width: "100%",
+
+                    sorting: true,
+                    paging: true,
+
+                    data: lstData,
+
+                    fields: [
+                        { name: "Nim", type: "text", width: 50 },
+                        { name: "Nama", type: "text", width: 150 }
+                    ]
+                });
             }
 
             function failure(error) {
