@@ -8,6 +8,12 @@
     </head>
     <body>
 
+    <div class="container">
+        <div class="row">
+            <button id="btnTambah" class="btn btn-default" value="Tambah">
+        </div>
+    </div>
+
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="https://zumo.blob.core.windows.net/sdk/azure-mobile-apps-client.min.js"></script>
@@ -18,7 +24,8 @@
 
             //table.read().then(success,failure);
             //table.where(filterNim,"72").read().then(success,failure);
-            table.where(filterNama,"Re").read().then(success,failure);
+            table.where(filterNama,"Re").orderBy("Nim").read().then(success,failure);
+
 
             function filterNim(searchNim){
                 return this.Nim.substring(0,2)==searchNim;
@@ -40,6 +47,22 @@
 
             function failure(error){
                 throw new Error("Error load data: "+error);
+            }
+
+            function TambahData(){
+                var newMhs = {
+                    Nim:'22190990',
+                    Nama:'Erick Kurniawan',
+                    Email:'erick@gmail.com',
+                    Ipk:3.6,
+                    Alamat:'Wahidin 5-25',
+                    Telp:'556677'
+                };
+
+                table.insert(newMhs).done(function(insertItem){
+                    var id = insertItem.id;
+                    alert("Data dengan id "+ id + " berhasil ditambah !");
+                },failure);
             }
 
         });
