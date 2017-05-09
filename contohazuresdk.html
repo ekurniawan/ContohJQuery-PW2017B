@@ -15,6 +15,9 @@
         <div class="row">
             <h3>Data Mahasiswa</h3>
             <br/>
+            <label for="txtSearch">Masukan Nama :</label>
+            <input type="text" id="txtSearch">
+            <button type="button" id="btnSearch">Search</button><br/>
             <div id="jsGrid"></div>
             <button type="button" id="btnShow">Show</button>
         </div>
@@ -25,13 +28,19 @@
     <script src="https://zumo.blob.core.windows.net/sdk/azure-mobile-apps-client.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
     <script>
+        
         $(document).ready(function () {
             var client = new WindowsAzure.MobileServiceClient("http://mysamplebackend.azurewebsites.net");
             var table = client.getTable("mahasiswa");
-
-            $("#btnShow").click(function () {
-                table.read().then(success, failure);
+            table.read().then(success, failure);
+            
+            $("#btnSearch").click(function(){
+                table.where(filterNama,$("#txtSearch").val()).read().then(success,failure);
             });
+
+            function filterNama(currNama){
+                return this.Nama.toLowerCase().indexOf(currNama)!=-1;
+            }
 
             function success(results) {
                 var numItemRead = results.length;
