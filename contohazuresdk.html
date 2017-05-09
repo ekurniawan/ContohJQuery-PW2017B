@@ -11,7 +11,8 @@
 <body>
     <div class="container">
         <div class="row">
-
+            <p id="parMhs"></p><br>
+            <button type="button" id="btnShow">Show</button>
         </div>
     </div>
 
@@ -20,7 +21,24 @@
     <script src="https://zumo.blob.core.windows.net/sdk/azure-mobile-apps-client.min.js"></script>
     <script>
         $(document).ready(function () {
-        
+            var client = new WindowsAzure.MobileServiceClient("http://mysamplebackend.azurewebsites.net");
+            var table = client.getTable("mahasiswa");
+
+            $("#btnShow").click(function(){
+                table.read().then(success,failure);
+            });
+
+            function success(results){
+                var numItemRead = results.length;
+                for(var i=0;i<numItemRead;i++){
+                    var row = results[i];
+                    $("#parMhs").append(row["Nim"]+" "+row["Nama"]+" "+row["Email"] + "<br/>");
+                }
+            }
+
+            function failure(error){
+                throw new Error("Kesalahan: "+error);
+            }
         });
     </script>
 </body>
