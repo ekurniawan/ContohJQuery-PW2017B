@@ -13,7 +13,26 @@
     <script src="https://zumo.blob.core.windows.net/sdk/azure-mobile-apps-client.min.js"></script>
     <script>
         $(document).ready(function(){
-            
+            var client = new WindowsAzure.MobileServiceClient("http://mysamplebackend.azurewebsites.net");
+            var table = client.getTable("mahasiswa");
+
+            table.read().then(success,failure);
+
+            function success(results){
+                var numItemRow = results.length;
+                var strOutput = "";
+                for(var i=0;i<numItemRow;i++){
+                    var row = results[i];
+                    strOutput+=row["Nim"] + row["Nama"]+"\n";
+                }
+                alert(strOutput);
+            }
+
+            function failure(error){
+                throw new Error("Error load data: "+error);
+            }
+
+
         });
     </script>
     </body>
