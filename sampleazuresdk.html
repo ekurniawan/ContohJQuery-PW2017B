@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Sample Azure SDK</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-    </head>
-    <body>
+
+<head>
+    <title>Sample Azure SDK</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
 
     <div class="container">
         <div class="row">
-            <button id="btnTambah" class="btn btn-default" value="Tambah">
+             <p id="pData"></p>
+             <input type="text" id="idDelete" /><br>
+             <button id="btnTambah" class="btn btn-default">Tambah</button>
+             <button id="btnDelete" class="btn btn-default">Delete</button>
         </div>
     </div>
 
@@ -18,54 +23,70 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="https://zumo.blob.core.windows.net/sdk/azure-mobile-apps-client.min.js"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             var client = new WindowsAzure.MobileServiceClient("http://mysamplebackend.azurewebsites.net");
             var table = client.getTable("mahasiswa");
 
-            //table.read().then(success,failure);
-            //table.where(filterNim,"72").read().then(success,failure);
-            table.where(filterNama,"Re").orderBy("Nim").read().then(success,failure);
+            table.read().then(success,failure);
+            //table.where(filterNim,"22190990").read().then(success,failure);
+            //table.where(filterNama,"Re").orderBy("Nim").read().then(success,failure);
 
+            $("#btnTambah").click(function () {
+                TambahData();
+            });
 
-            function filterNim(searchNim){
-                return this.Nim.substring(0,2)==searchNim;
+            $("#btnDelete").click(function () {
+                DeleteData();
+            });
+
+            function filterNim(searchNim) {
+                return this.Nim.substring(0, 2) == searchNim;
             }
 
-            function filterNama(searchNama){
-                return this.Nama.substring(0,2)==searchNama;
+            function filterNama(searchNama) {
+                return this.Nama.substring(0, 2) == searchNama;
             }
 
-            function success(results){
+            function success(results) {
                 var numItemRow = results.length;
                 var strOutput = "";
-                for(var i=0;i<numItemRow;i++){
+                for (var i = 0; i < numItemRow; i++) {
                     var row = results[i];
-                    strOutput+=row["Nim"] + row["Nama"]+"\n";
+                    strOutput += row["id"] + " " + row["Nim"] + row["Nama"] + "<br/>";
                 }
-                alert(strOutput);
+                $("#pData").append(strOutput);
             }
 
-            function failure(error){
-                throw new Error("Error load data: "+error);
+            function failure(error) {
+                throw new Error("Error load data: " + error);
             }
 
-            function TambahData(){
+            function TambahData() {
                 var newMhs = {
-                    Nim:'22190990',
-                    Nama:'Erick Kurniawan',
-                    Email:'erick@gmail.com',
-                    Ipk:3.6,
-                    Alamat:'Wahidin 5-25',
-                    Telp:'556677'
+                    Nim: '22190990',
+                    Nama: 'Erick Kurniawan',
+                    Email: 'erick@gmail.com',
+                    Ipk: 3,
+                    Alamat: 'Wahidin 5-25',
+                    Telp: '556677'
                 };
 
-                table.insert(newMhs).done(function(insertItem){
+                table.insert(JSON.stringify(newMhs)).done(function (insertItem) {
                     var id = insertItem.id;
-                    alert("Data dengan id "+ id + " berhasil ditambah !");
-                },failure);
+                    alert("Data dengan id " + id + " berhasil ditambah !");
+                }, failure);
+            }
+
+            function DeleteData() {
+                table
+                    .del({ id: $("#idDelete").val() })
+                    .done(function () {
+                        alert("Data berhasil didelete !");
+                    }, failure);
             }
 
         });
     </script>
-    </body>
+</body>
+
 </html>
