@@ -117,10 +117,10 @@
 
             function EditDataDosen() {
                 var editDosen = {
-                    nama:$("#edit_nama").val(),
-                    alamat:$("#edit_alamat").val(),
-                    telp:$("#edit_telp").val(),
-                    email:$("#edit_email").val()
+                    nama: $("#edit_nama").val(),
+                    alamat: $("#edit_alamat").val(),
+                    telp: $("#edit_telp").val(),
+                    email: $("#edit_email").val()
                 }
 
                 $.ajax({
@@ -231,17 +231,22 @@
                         "ZUMO-API-VERSION": "2.0.0",
                         "Access-Control-Allow-Headers": "*"
                     },
+                    data: { nik: 1},
                     dataType: "json",
                     success: function (data) {
                         var result = "<tbody>";
+
                         $.each(data, function (key, value) {
-                            result += "<tr id='" + value.id + "'>";
-                            result += "<td>" + value.nik + "</td>";
-                            result += "<td>" + value.nama + "</td>";
-                            result += "<td>" + value.alamat + "</td>";
-                            result += "<td>" + value.telp + "</td>";
-                            result += "<td>" + value.email + "</td>";
-                            result += "</tr>";
+                           //if (value.nik == "1234") {
+                                result += "<tr id='" + value.id + "'>";
+                                result += "<td>" + value.nik + "</td>";
+                                result += "<td>" + value.nama + "</td>";
+                                result += "<td>" + value.alamat + "</td>";
+                                result += "<td>" + value.sks + "</td>";
+                                result += "<td>" + value.email + "</td>";
+                                result += "</tr>";
+
+                         // }
                         });
                         result += "</tbody>";
                         $("#tableDosen").append(result);
